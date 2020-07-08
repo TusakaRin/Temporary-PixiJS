@@ -1,12 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<script type="text/javascript" src="{{ url_for('static', filename='home.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='add.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='subtract.js') }}"></script>
-</body>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>共享汽车 仿真</title>
+    <script type="text/javascript">
+      function loadDoc(load_call_back) {
+        var data = new FormData();
+        data.append('size', document.getElementById('size').value)
+        data.append('cp_distance', document.getElementById('size').value)
+        data.append('cd_distance', document.getElementById('size').value)
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            load_call_back(this);
+          }
+        };
+        xhttp.open("POST", "simulation", true);
+        xhttp.send(data);
+      }
+      function updatePage(xhttp){
+        let targetDiv = document.getElementById('animation')
+        targetDiv.innerText = xhttp.responseText;
+      }
+      function resetAnimation(){
+        return
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>共享汽车仿真Demo</h1>
+    <h2>仿真参数</h2>
+    <div>
+      地图大小：<input id="size" value="5"></input>
+    </div>
+    <div>
+      车与被捎带者距离：<input id="cp_distance" value="5"></input>
+    </div>
+    <div>
+      驾驶者目的地与被捎带者距离：<input id="cd_distance" value="5"></input>
+    </div>
+    <div>
+      <button type="button" onclick="loadDoc(updatePage)">Change Content</button>
+      <button type="button" onclick="resetAnimation()">reset</button>
+    </div>
+    <h2>仿真动画</h2>
+    <div id="animation">
+    </div>
+  </body>
+
 </html>

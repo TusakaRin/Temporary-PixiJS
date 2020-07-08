@@ -4,17 +4,23 @@
 # @Author : yfdai
 
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import time, json
 
 app = Flask(__name__)
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/animation')
-def animation():
-    return render_template('pixi.html')
+
+@app.route('/simulation', methods=['POST'])
+def run_simulation():
+    print(dict(request.form))
+    return {
+        "currentTime": int(time.time())
+    }
 
 
 if __name__ == '__main__':
