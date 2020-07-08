@@ -1,0 +1,1 @@
+alert('The home.js file jas been loaded!')
